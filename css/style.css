@@ -1,0 +1,92 @@
+@charset "utf-8";
+
+@import url('https://fonts.googleapis.com/css2?family=Petit+Formal+Script&family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+/*GLOBAL CONFIGURATION*/
+body{
+   width: 100%;      /* Ensures full page width */
+   margin: 0;        /* Remove default browser margin */
+   height: 100%;
+   padding: 0;       /* Remove default browser padding */
+   background-color:#fff; /* Page background */
+   font-family: "Tinos", serif; /* Default site font */
+   position: absolute;
+}
+
+
+
+
+
+.options{
+   text-align: center;
+   width: 100%;
+}
+
+
+/*TOP */
+    .topDiv {
+  background-image: url("../images/flower.png");
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+        
+    }
+
+    @media (min-width: 768px) {
+  .topDiv {
+    height: 80vh;
+  }
+}
+
+.pink{
+ background-color: #fff;
+ position:absolute;
+ opacity: 80%;
+ height: 20vh;
+ display: flex;
+ width: 75%;
+
+align-items: center;
+justify-content: center;
+}
+
+.pink h1{
+font-weight: bold;
+font-size: 28px;
+}
+
+h1,h2,h3{
+    font-family: "Petit Formal Script", cursive;
+}
+
+.arrow{
+    margin-top: 70vh;
+    width: 4rem;
+    height: 4rem;
+}
+
+
+.buttonForm{
+    background-color: #F68078;
+    border: none;
+}
+
+.buttonForm:hover{
+
+background-color: #D01F20;
+}
+
+
+
+
+
+.form-control:focus,
+.form-select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #F68078;
+  box-shadow: 0 0 0 3px rgba(246, 128, 120, 0.5);
+  
+}
+
