@@ -83,6 +83,7 @@ background-color: #D01F20;
 
 .form-control:focus,
 .form-select:focus,
+.form-check:focus,
 textarea:focus {
   outline: none;
   border-color: #F68078;
@@ -90,3 +91,4 @@ textarea:focus {
   
 }
 
+  
