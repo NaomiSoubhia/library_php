@@ -1,30 +1,30 @@
 <main>
         <h2 class="text-center mt-5">Create a new post</h2>
-        <form class="mt-4 " action="">
+        <form class="mt-4 " action="process.php" method="post"  >
             <div class="container d-flex justify-content-center ">
                 <div class="row col-md-8 col-10">
 
                     <div class="my-2">
-                        <input type="text" class="form-control" placeholder="First name" aria-label="First name"
+                        <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First name" aria-label="First name"
                             required>
                     </div>
 
                     <div class="my-2">
-                        <input type="text" class="form-control" placeholder="Last name" aria-label="Last name" required>
+                        <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Last name" aria-label="Last name" required>
                     </div>
 
 
                     <div class="my-2">
-                        <input type="text" class="form-control" placeholder="Post Title" aria-label="Post Title"
+                        <input type="text" class="form-control" name="post_title" id="post_title" placeholder="Post Title" aria-label="Post Title"
                             required>
                     </div>
 
 
                     <div class="my-2">
-                        <input type="date" class="form-control" required>
+                        <input type="date"  class="form-control" name="post_date" id="post_date" required>
                     </div>
                     <div class="my-2">
-                        <input type="text" class="form-control" placeholder="Book Name" aria-label="Book Name" required>
+                        <input type="text" class="form-control" name="book_name" id="book_name"  placeholder="Book Name" aria-label="Book Name" required>
                     </div>
 
 
@@ -43,22 +43,22 @@
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2"
-                                        value="option2">
+                                    <input class="form-check-input"  type="radio" name="gridRadios" id="gridRadios2"
+                                        value="Fantasy">
                                     <label class="form-check-label" for="gridRadios2">
                                         Fantasy
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3"
-                                        value="option3">
-                                    <label class="form-check-label" for="gridRadios3">
+                                    <input class="form-check-input"  type="radio" name="gridRadios" id="gridRadios3"
+                                        value="Thriller">
+                                    <label class="form-check-label"  for="gridRadios3">
                                         Thriller
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios4"
-                                        value="option4">
+                                    <input class="form-check-input"    type="radio" name="gridRadios" id="gridRadios4"
+                                        value="Romance">
                                     <label class="form-check-label" for="gridRadios4">
                                         Romance
                                     </label>
@@ -71,32 +71,35 @@
 
                     <div class="my-2 ">
                         <div class="">
-                            <label for="inputState" class="form-label">Stars</label>
-                            <select id="inputState" required class="form-select">
-                                <option selected>Choose...</option>
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
+                            <label for="stars" class="form-label">Stars</label>
+                            <select id="stars" name="stars" required class="form-select">
+                                <option value="" selected>Choose...</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="my-2">
                         <label for="review" class="form-label">Review</label>
-                        <textarea class="form-control" id="review" rows="3"></textarea>
+                        <textarea class="form-control" name="review" id="review" rows="3"></textarea>
                     </div>
 
-                    <div class="text-center mt-3 mb-5 ">
+                    <div class="text-center mt-3 mb-2">
                         <button type="submit" class="btn btn-primary buttonForm ">Submit</button>
                     </div>
                 </div>
             </div>
         </form>
 
-        <?php
-        include "post.php";
-        ?>
+         <h2 class="text-center mt-5 pb-3">Posts</h2>
+         <?php  
+        require __DIR__ . "/post.php";
 
+         ?>
+         
+         
     </main>
