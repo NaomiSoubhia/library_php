@@ -35,7 +35,7 @@
                         <div class="my-2">
                             <label for="inputState" class="form-label col-md-2 col-10">Category</label>
                             <div class="col-sm-10">
-                                <div class="form-check">
+                                <div class="form-check" required>
                                     <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1"
                                         value="option1" checked>
                                     <label class="form-check-label" for="gridRadios1">

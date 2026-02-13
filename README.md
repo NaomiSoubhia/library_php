@@ -1,1 +1,5 @@
 # library_php
+
+This project involved building a PHP and MySQL web application that allows users to create, update, and manage book review posts. Through this project, I practiced implementing CRUD operations, connecting to a database using PDO, and using prepared statements for security. One of the main challenges was ensuring that form field names matched the PHP $_POST variables exactly, as small errors (such as case sensitivity issues) caused database constraint errors. Debugging these issues helped me better understand how data flows from the frontend form to the backend and into the database.
+
+Overall, the project was successful in implementing full CRUD functionality with proper validation and dynamic form pre-filling. I improved my confidence in troubleshooting PHP and SQL errors and gained a stronger understanding of database constraints and backend logic. As next steps, I would improve the user interface, add search and filter functionality, and implement authentication to make the application more secure and user-friendly.
