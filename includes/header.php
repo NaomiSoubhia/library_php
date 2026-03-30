@@ -26,7 +26,7 @@
 
         <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
             <div class="container-fluid">
-                <a class="navbar-brand ms-md-5 ms-sm-1" href="#"><img src="images/logo.png" width="40%" height="40%"
+                <a class="navbar-brand ms-md-5 ms-sm-1" href="index.php"><img src="images/logo.png" width="40%" height="40%"
                         alt=""></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,13 +35,16 @@
                 <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                     <ul class="navbar-nav me-1">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                            <a class="nav-link active" aria-current="page" href="index.php">Home</a>
                         </li>
                         <li class="nav-item me-1">
-                            <a class="nav-link" href="#">Features</a>
+                            <a class="nav-link" href="index.php#posts">Posts</a>
                         </li>
                         <li class="nav-item me-2">
-                            <a class="nav-link" href="#">Pricing</a>
+                            <a class="nav-link" href="admin.php">Admin</a>
+                        </li>
+                        <li class="nav-item me-2">
+                            <a class="nav-link" href="login.php">Login</a>
                         </li>
                     </ul>
                 </div>
