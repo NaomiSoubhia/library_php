@@ -2,12 +2,13 @@
 /**
  * delete.php
  */
+
+session_start();
+// Make sure the user is logged in before they can access this page
+require "includes/auth.php";
+
 //connect to db
-
 require "connect.php";
-
-
-
 
 
 // make sure we received an ID
