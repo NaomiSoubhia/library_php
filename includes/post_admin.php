@@ -2,7 +2,9 @@
 //TODO:
 require "connect.php";
 
-
+session_start();
+// Make sure the user is logged in before they can access this page
+require "includes/auth.php";
 
 //1. Write a SELECT query 
 $sql = "SELECT * FROM post order by post_date desc";
@@ -28,11 +30,16 @@ $pdo = null;
 <?php if (count($post) > 0): ?>
     <?php foreach ($post as $p): ?>
         <div class="container mx-auto text-center pt-2 bg-light rounded col-md-8 my-5 py-5" id="post">
+            <div class="text-end">
+                <a href="delete.php?id=<?= urlencode($p['id']); ?>"
+                    onclick="return confirm('Are you sure you want to delete?');"><img class="mt-4 pe-3" src="images/trash.png" alt=""></a>
+                <a href="update.php?id=<?= urlencode($p['id']); ?>"><img class="mt-4 pe-5" src="images/pencil.png" alt=""></a>
 
+            </div>
             <div class="py-3">
 
                 <?php if (!empty($p['image_path'])): ?>
-                    <img src="<?= htmlspecialchars($p['image_path']); ?>" class="rounded w-50 mx-auto d-block" alt="Post Image">
+                    <img src="<?= htmlspecialchars($p['image_path']); ?>" class="rounded w-50 d-block mx-auto " alt="Post Image">
 
                 <?php else: ?>
                     <p>No image found</p>
@@ -43,7 +50,6 @@ $pdo = null;
             <p class="text-capitalize"><em>By <?= htmlspecialchars($p['first_name']) ?> <?= htmlspecialchars($p['last_name']) ?></em></p>
 
             <div class="row d-flex justify-content-center">
-
                 <div class="col-md-3">
                     <p>Book: <?= htmlspecialchars($p['book_name']) ?></p>
                     <p>Category: <?= htmlspecialchars($p['category']) ?></p>

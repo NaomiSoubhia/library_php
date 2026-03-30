@@ -2,6 +2,10 @@
 //  TODO: connect to the database 
 require "connect.php"; 
 
+session_start();
+// Make sure the user is logged in before they can access this page
+require "includes/auth.php";
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     die('Invalid request');
 }
@@ -17,7 +21,8 @@ $category = filter_input(INPUT_POST, 'gridRadios', FILTER_SANITIZE_SPECIAL_CHARS
 $stars = filter_input(INPUT_POST, 'stars', FILTER_SANITIZE_SPECIAL_CHARS);
 $review = filter_input(INPUT_POST, 'review', FILTER_SANITIZE_SPECIAL_CHARS);
 
-
+ // This will store the image path for the database
+$imagePath = null;
 
 //validation time = serverside
 
@@ -57,6 +62,35 @@ if ($stars === null || $stars === '') {
     $errors[] = "Stars is Required.";
 } 
 
+//check whether a file was uploaded
+    if (isset($_FILES['review_image']) && $_FILES['review_image']['error'] !== UPLOAD_ERR_NO_FILE) {
+        //make sure upload completed successfully 
+        if ($_FILES['review_image']['error'] !== UPLOAD_ERR_OK) {
+            $errors[] = "There was a problem uploading your file!";
+        } else {
+            //only allow a few file types 
+            $allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'];
+            //detect the real MIME type of the file 
+            $detectedType = mime_content_type($_FILES['review_image']['tmp_name']);
+            if (!in_array($detectedType, $allowedTypes, true)) {
+                $errors[] = "Only JPG, PNG and WebP allowed";
+            } else {
+                //build the file name and move it to where we want it to go (uploads)
+                //get the file extension 
+                $extension = pathinfo($_FILES['review_image']['name'], PATHINFO_EXTENSION);
+                //create a unique filename so uploaded files don't overwrite 
+                $safeFilename = uniqid('product_', true) . '.' . strtolower($extension);
+                //build the full server path where the file will be stored 
+                $destination = __DIR__ . '/uploads/' . $safeFilename;
+                if (move_uploaded_file($_FILES['review_image']['tmp_name'], $destination)) {
+                    //save the relative path to the database
+                    $imagePath = 'uploads/' . $safeFilename; 
+                } else {
+                    $errors[] = "Image uploaded failed!"; 
+                }
+            }
+        }
+    }
 
 if (!empty($errors)) {
     require "includes/header.php";   
@@ -76,7 +110,7 @@ if (!empty($errors)) {
 
 
 //1- Write an INSERT statement with named placeholders
-$sql = "INSERT INTO post (first_name, last_name, title, post_date, book_name, category, stars, review) values (:first_name, :last_name, :post_title, :post_date, :book_name, :category, :stars, :review)";
+$sql = "INSERT INTO post (first_name, last_name, title, post_date, book_name, category, stars, review, image_path) values (:first_name, :last_name, :post_title, :post_date, :book_name, :category, :stars, :review, :image_path)";
 
 //2. Prepare the statement
 $stmt= $pdo->prepare($sql);
@@ -90,6 +124,7 @@ $stmt->bindParam(':book_name', $bookname);
 $stmt->bindParam(':category', $category);
 $stmt->bindParam(':stars', $stars);
 $stmt->bindParam(':review', $review);
+$stmt->bindParam(':image_path', $imagePath);
 
 //Execute the query
 $stmt ->execute();

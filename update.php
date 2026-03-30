@@ -4,6 +4,9 @@
  * update.php
  */
 
+session_start();
+// Make sure the user is logged in before they can access this page
+require "includes/auth.php";
 
 require "includes/header.php";
 require "connect.php";
@@ -33,6 +36,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $category     = trim($_POST['category'] ?? '');
   $stars   = trim($_POST['stars'] ?? '');
   $review     = trim($_POST['review'] ?? '');
+  $review_image     = trim($_POST['review_image'] ?? '');
+
+
+
+  //check whether a file was uploaded
+  if (isset($_FILES['review_image']) && $_FILES['review_image']['error'] !== UPLOAD_ERR_NO_FILE) {
+    //make sure upload completed successfully 
+    if ($_FILES['review_image']['error'] !== UPLOAD_ERR_OK) {
+      $errors[] = "There was a problem uploading your file!";
+    } else {
+      //only allow a few file types 
+      $allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'];
+      //detect the real MIME type of the file 
+      $detectedType = mime_content_type($_FILES['review_image']['tmp_name']);
+      if (!in_array($detectedType, $allowedTypes, true)) {
+        $errors[] = "Only JPG, PNG and WebP allowed";
+      } else {
+        //build the file name and move it to where we want it to go (uploads)
+        //get the file extension 
+        $extension = pathinfo($_FILES['review_image']['name'], PATHINFO_EXTENSION);
+        //create a unique filename so uploaded files don't overwrite 
+        $safeFilename = uniqid('product_', true) . '.' . strtolower($extension);
+        //build the full server path where the file will be stored 
+        $destination = __DIR__ . '/uploads/' . $safeFilename;
+        if (move_uploaded_file($_FILES['review_image']['tmp_name'], $destination)) {
+          //save the relative path to the database
+          $imagePath = 'uploads/' . $safeFilename;
+        } else {
+          $errors[] = "Image uploaded failed!";
+        }
+      }
+    }
+  }
 
 
 
@@ -49,7 +85,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 book_name = :book_name,
                 category = :category,
                 stars = :stars,
-                review = :review
+                review = :review,
+                image_path = :image_path
+
             WHERE id = :id";
 
     $stmt = $pdo->prepare($sql);
@@ -64,6 +102,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bindParam(':category', $category);
     $stmt->bindParam(':stars', $stars);
     $stmt->bindParam(':review', $review);
+    $stmt->bindParam(':image_path', $imagePath);
+
 
     $stmt->bindParam(':id', $postId);
 
@@ -102,7 +142,7 @@ if (!$post) {
     This form is pre-filled using the order data pulled from the database.
     The admin can edit the values and submit to update the row.
   -->
-  <form method="post">
+  <form method="post" enctype="multipart/form-data">
 
     <h4 class="mt-3">Post Info</h4>
 
@@ -208,10 +248,18 @@ if (!$post) {
 
     <div class="my-2">
       <label for="review" class="form-label">Review</label>
-      <textarea class="form-control" name="review" id="review" rows="3" ><?= htmlspecialchars($post['review']); ?></textarea>
+      <textarea class="form-control" name="review" id="review" rows="3"><?= htmlspecialchars($post['review']); ?></textarea>
     </div>
 
-
+    <div class="col-md-12 col-10">
+    <label for="review_image" class="form-label my-2">Post Image</label>
+    <input
+      type="file"
+      id="review_image"
+      name="review_image"
+      class="form-control mb-4 my-2"
+      accept=".jpg,.jpeg,.png,.webp">
+    </div>
 
     <button class="btn btn-primary">Save Changes</button>
     <a href="index.php" class="btn btn-secondary">Cancel</a>
