@@ -1,5 +1,4 @@
 
-p
 
 <main>
     <h2 class="text-center mt-5">Create a new post</h2>
