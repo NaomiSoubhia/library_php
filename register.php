@@ -63,6 +63,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = "Password must be at least 8 characters long.";
     }
 
+    //Google recatcha secret key
+    $recaptchaSecret = "6LcGNKAsAAAAAEPjdOPDZFx-juNtjAl7X3XwxVbs";
+    $recaptchaResponse = $_POST['g-recaptcha-response'] ?? '';
+
+    //Verify recatcha
+    $verify = file_get_contents(
+        "https://www.google.com/recaptcha/api/siteverify?secret=" 
+        . $recaptchaSecret . "&response=" . $recaptchaResponse
+    );
+    $captchaSuccess = json_decode($verify);
+
+    if (!$captchaSuccess->success) {
+        $errors[] = "Please verify that you are not a robot.";
+    }
+
 
     // Verify if had errors
     if (empty($errors)) {
@@ -186,6 +201,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             required
         >
 
+        <!-- reCAPTCHA -->
+                <div class="mb-3">
+                    <div class="g-recaptcha" data-sitekey="6LcGNKAsAAAAAODOf0M2rU6d2aFx0X9ACvQ_qepH"></div>
+                </div>
         <!-- Submit button -->
         <button type="submit" class="btn btn-primary">Create Account</button>
 
