@@ -2,6 +2,9 @@
 //  TODO: connect to the database 
 require "connect.php"; 
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 session_start();
 // Make sure the user is logged in before they can access this page
 require "includes/auth.php";
@@ -79,7 +82,7 @@ if ($stars === null || $stars === '') {
                 //get the file extension 
                 $extension = pathinfo($_FILES['review_image']['name'], PATHINFO_EXTENSION);
                 //create a unique filename so uploaded files don't overwrite 
-                $safeFilename = uniqid('product_', true) . '.' . strtolower($extension);
+                $safeFilename = uniqid('review_', true) . '.' . strtolower($extension);
                 //build the full server path where the file will be stored 
                 $destination = __DIR__ . '/uploads/' . $safeFilename;
                 if (move_uploaded_file($_FILES['review_image']['tmp_name'], $destination)) {
